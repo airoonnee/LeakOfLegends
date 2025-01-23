@@ -21,6 +21,8 @@ class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self._serve_file(os.path.join(TEMPLATES_DIR, 'index.html'))
         elif self.path == '/champions':
             self._serve_file(os.path.join(TEMPLATES_DIR, 'champions.html'))
+        elif self.path == '/stats':
+            self._serve_file(os.path.join(TEMPLATES_DIR, 'stats.html'))
         elif self.path == '/api/lol-stats':
             reset('lolStatsFilter.csv', 'lolStatsFilter.csv')
             self._serve_csv(os.path.join(DATA_DIR, 'lolStatsFilter.csv'))

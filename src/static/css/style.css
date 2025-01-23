@@ -204,6 +204,103 @@ main p {
     font-style: italic;
 }
 
+/* Style pour la section de comparaison */
+#compare-section {
+    background-color: #292b30;
+    border-radius: 8px;
+    padding: 30px;
+    margin: 20px auto;
+    max-width: 900px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+#compare-section p {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #eaeaea;
+    margin-bottom: 20px;
+}
+
+/* Conteneur des comboboxes */
+#compare-section .combobox-container {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Style des labels */
+#compare-section .combobox-container label {
+    display: block;
+    font-size: 1.1rem;
+    color: #eaeaea;
+    margin-bottom: 8px;
+}
+
+/* Champ de recherche */
+#compare-section .combobox-container input[type="text"] {
+    background-color: #23252b;
+    color: #eaeaea;
+    border: 1px solid #3b3e45;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 350px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+/* Effet au focus du champ de recherche */
+#compare-section .combobox-container input[type="text"]:focus {
+    outline: none;
+    background-color: #292b30;
+    border-color: #4fd1c5;
+    box-shadow: 0 0 8px rgba(79, 209, 197, 0.8);
+}
+
+/* Style pour le placeholder */
+#compare-section .combobox-container input[type="text"]::placeholder {
+    color: #868686;
+    font-style: italic;
+}
+
+/* Dropdown select */
+#compare-section .combobox-container select {
+    background-color: #23252b;
+    color: #eaeaea;
+    border: 1px solid #3b3e45;
+    padding: 8px;
+    margin: 5px;
+    font-size: 1rem;
+    border-radius: 4px;
+    width: 90%;
+    max-width: 350px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    transition: background-color 0.3s ease;
+}
+
+/* Effet au hover des dropdowns */
+#compare-section .combobox-container select:hover {
+    background-color: #3b3e45;
+}
+
+/* Style du bouton Comparer */
+#compare-section #compareButton {
+    background-color: #4fd1c5;
+    color: #1e1f22;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1rem;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#compare-section #compareButton:hover {
+    background-color: #3b9b8e;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
     table {

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stats</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Comparer deux champions</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/champions">Champions</a></li>
+                <li><a href="/stats">Stats</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="compare-section">
+        <p>Sélectionnez deux champions à comparer :</p>
+
+        <div id="search">
+            <div class="combobox-container">
+                <label for="champion1">Champion 1</label>
+                <input type="text" id="searchChampion1" placeholder="Rechercher un champion...">
+                <select id="champion1"></select>
+            </div>
+
+            <div class="combobox-container">
+                <label for="champion2">Champion 2</label>
+                <input type="text" id="searchChampion2" placeholder="Rechercher un champion...">
+                <select id="champion2"></select>
+            </div>
+        </div>
+
+        <div id="filters">
+            <button class="button" id="compareButton">Comparer</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Leak Of Legends</p>
+    </footer>
+
+    <script>
+        const champions = [];
+
+        async function loadChampionData() {
+            const response = await fetch('/api/lol-stats');
+            if (!response.ok) {
+                console.error('Failed to fetch champion data');
+                return;
+            }
+            const data = await response.json();
+            data.forEach(row => {
+                if (!champions.includes(row['Name'])) {
+                    champions.push(row['Name']);
+                }
+            });
+            console.log(champions);
+        }
+
+        loadChampionData();
+
+        function populateDropdown(dropdownId) {
+            const dropdown = document.getElementById(dropdownId);
+            champions.forEach(champion => {
+                const option = document.createElement("option");
+                option.value = champion;
+                option.textContent = champion;
+                dropdown.appendChild(option);
+            });
+        }
+
+        function filterDropdown(searchInputId, dropdownId) {
+            const searchInput = document.getElementById(searchInputId);
+            const dropdown = document.getElementById(dropdownId);
+
+            searchInput.addEventListener("input", () => {
+                const searchText = searchInput.value.toLowerCase();
+                dropdown.innerHTML = "";
+                champions
+                    .filter(champion => champion.toLowerCase().includes(searchText))
+                    .forEach(filteredChampion => {
+                        const option = document.createElement("option");
+                        option.value = filteredChampion;
+                        option.textContent = filteredChampion;
+                        dropdown.appendChild(option);
+                    });
+            });
+        }
+        
+        document.addEventListener("DOMContentLoaded", async () => {
+            await loadChampionData();
+            populateDropdown("champion1");
+            populateDropdown("champion2");
+
+            filterDropdown("searchChampion1", "champion1");
+            filterDropdown("searchChampion2", "champion2");
+
+            document.getElementById("compareButton").addEventListener("click", () => {
+                const champion1 = document.getElementById("champion1").value;
+                const champion2 = document.getElementById("champion2").value;
+                if (champion1 && champion2) {
+                    alert(`Vous comparez ${champion1} avec ${champion2}`);
+                } else {
+                    alert("Veuillez sélectionner deux champions !");
+                }
+            });
+        });
+    </script>
+</body>
+</html>
