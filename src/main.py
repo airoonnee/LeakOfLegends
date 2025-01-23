@@ -21,13 +21,13 @@ def main():
         choice = input("Choisissez une option (1-6) : ")
 
         if choice == '1':
-            Top.top_win(df, nbr)
+            Top.top(df, nbr, 'Win %')
         elif choice == '2':
-            Top.top_pick(df, nbr)
+            Top.top(df, nbr, 'Pick %')
         elif choice == '3':
-            Top.top_ban(df, nbr)
+            Top.top(df, nbr, 'Ban %')
         elif choice == '4':
-            Top.top_kda(df, nbr)
+            Top.top(df, nbr, 'KDA')
         elif choice == '5' :
             champion_name = input("Entrez le nom du champion : ")
             Champion.afficher_info_champion(df, champion_name)
