@@ -56,11 +56,20 @@ def trier_par_kda_desc(input_file, output_file):
 def trier_par_critere(input_file, output_file, critere, ordre='ASC'):
     input_path = os.path.join(DATA_DIR, 'processed', input_file)
     output_path = os.path.join(DATA_DIR, 'processed', output_file)
-
+    
     df = pd.read_csv(input_path, delimiter=';')
-    if ordre == 'ASC':
-        df_trie = df.sort_values(by=critere, ascending=True)
+
+    if critere == 'Tier':
+        custom_order = {'God': 0, 'S': 1, 'A': 2, 'B': 3, 'C': 4, 'D': 5}
+        if ordre == 'ASC':
+            df_trie = df.sort_values(by=critere, key=lambda x: x.map(custom_order))
+        else:
+            df_trie = df.sort_values(by=critere, key=lambda x: x.map(custom_order), ascending=False)
     else:
-        df_trie = df.sort_values(by=critere, ascending=False)
+        if ordre == 'ASC':
+            df_trie = df.sort_values(by=critere, ascending=True)
+        else:
+            df_trie = df.sort_values(by=critere, ascending=False)
+            
     df_trie.to_csv(output_path, index=False, sep=';')
     print(df_trie)
