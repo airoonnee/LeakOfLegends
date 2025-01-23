@@ -20,14 +20,14 @@
     <table id="championTable">
         <thead>
             <tr>
-                <th>Name</th>
-                <th>Class</th>
-                <th>Role</th>
-                <th>Tier</th>
-                <th>Win %</th>
-                <th>Pick %</th>
-                <th>Ban %</th>
-                <th>KDA</th>
+                <th><button onclick="sortBy('Name')">Name</button></th>
+                <th><button onclick="sortBy('Class')">Class</button></th>
+                <th><button onclick="sortBy('Role')">Role</button></th>
+                <th><button onclick="sortBy('Tier')">Tier</button></th>
+                <th><button onclick="sortBy('Win')">Win %</button></th>
+                <th><button onclick="sortBy('Pick')">Pick %</button></th>
+                <th><button onclick="sortBy('Ban')">Ban %</button></th>
+                <th><button onclick="sortBy('KDA')">KDA</button></th>
             </tr>
         </thead>
         <tbody>
@@ -39,6 +39,8 @@
     </footer>
 
     <script>
+        const sortOrder = {};   
+
         async function loadChampionData() {
             const response = await fetch('/api/lol-stats');
             if (!response.ok) {
@@ -61,6 +63,37 @@
                 `;
                 tableBody.appendChild(tr);
             });
+        }
+
+        async function sortBy(column) {
+            sortOrder[column] = sortOrder[column] === 'ASC' ? 'DESC' : 'ASC';
+
+            try {
+                const response = await fetch(`/api/sort?column=${column}&order=${sortOrder[column]}`);
+                if (!response.ok) {
+                    console.error('Failed to fetch sorted data');
+                    return;
+                }
+                const sortedData = await response.json();
+                const tableBody = document.querySelector('#championTable tbody');
+                tableBody.innerHTML = '';
+                sortedData.forEach(row => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${row['Name']}</td>
+                        <td>${row['Class']}</td>
+                        <td>${row['Role']}</td>
+                        <td>${row['Tier']}</td>
+                        <td>${row['Win %']}</td>
+                        <td>${row['Pick %']}</td>
+                        <td>${row['Ban %']}</td>
+                        <td>${row['KDA']}</td>
+                    `;
+                    tableBody.appendChild(tr);
+                });
+            } catch (error) {
+                console.error('Error:', error);
+            }
         }
 
         loadChampionData();

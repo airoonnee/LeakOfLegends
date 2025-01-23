@@ -1,5 +1,9 @@
 import pandas as pd
+import os
 import sys
+
+BASE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../data')
+DATA_DIR = os.path.abspath(BASE_DIR)
 
 def trier_par_nom_asc(input_file, output_file):
     trier_par_critere(input_file, output_file, 'Name', 'ASC')
@@ -50,24 +54,13 @@ def trier_par_kda_desc(input_file, output_file):
     trier_par_critere(input_file, output_file, 'KDA', 'DESC')
 
 def trier_par_critere(input_file, output_file, critere, ordre='ASC'):
-    # Lire le fichier CSV
-    df = pd.read_csv(input_file, delimiter=';')
-    
-    # Trier les données par le critère spécifié
+    input_path = os.path.join(DATA_DIR, 'interim', input_file)
+    output_path = os.path.join(DATA_DIR, 'processed', output_file)
+
+    df = pd.read_csv(input_path, delimiter=';')
     if ordre == 'ASC':
         df_trie = df.sort_values(by=critere, ascending=True)
     else:
         df_trie = df.sort_values(by=critere, ascending=False)
-    
-    # Écrire les données triées dans un nouveau fichier CSV
-    df_trie.to_csv(output_file, index=False, sep=';')
-    
-    # Afficher les données triées
+    df_trie.to_csv(output_path, index=False, sep=';')
     print(df_trie)
-
-if __name__ == "__main__":
-    input_file = sys.argv[1]
-    output_file = sys.argv[2]
-    critere = sys.argv[3]
-    ordre = sys.argv[4]
-    trier_par_critere(input_file, output_file, critere, ordre)
