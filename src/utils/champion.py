@@ -10,7 +10,7 @@ df_info = pd.read_csv(file_path_info, sep=";")
 df_spell = pd.read_csv(file_path_spell, sep=";")
 
 class Champion:
-    def afficher_info_champion(champion_name):
+    def detail_champion(champion_name):
         """Affiche toutes les informations d'un champion."""
 
         champion_info = df_info[df_info['Name'].str.contains(champion_name, case=False, na=False)]

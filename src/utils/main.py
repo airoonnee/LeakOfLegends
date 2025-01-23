@@ -12,7 +12,7 @@ def main():
 
         if choice == '1':
             champion_name = input("Entrez le nom du champion : ")
-            Champion.afficher_info_champion(champion_name)
+            Champion.detail_champion(champion_name)
         else:
             print("Au revoir !")
             break
