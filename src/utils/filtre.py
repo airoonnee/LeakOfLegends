@@ -7,6 +7,18 @@ DATA_DIR = os.path.abspath(BASE_DIR)
 input_file = 'lolStatsFilter.csv'
 output_file = 'lolStatsFilter.csv'
 
+def reset(input_file, output_file):
+    input_path = os.path.join(DATA_DIR, 'interim', input_file)
+    output_path = os.path.join(DATA_DIR, 'processed', output_file)
+
+    df = pd.read_csv(input_path, delimiter=';')
+    
+    df_filtre = df
+    
+    df_filtre.to_csv(output_path, index=False, sep=';')
+    
+    print(df_filtre[['Name', 'Class', 'Role', 'Tier', 'Win %', 'Pick %', 'Ban %', 'KDA']])
+
 def filtrer_par_role(input_file, output_file, role):
     input_path = os.path.join(DATA_DIR, 'interim', input_file)
     output_path = os.path.join(DATA_DIR, 'processed', output_file)
@@ -44,8 +56,8 @@ def filtrer_par_tier(input_file, output_file, tier):
     print(df_filtre[['Name', 'Class', 'Role', 'Tier', 'Win %', 'Pick %', 'Ban %', 'KDA']])
 
 if __name__ == "__main__":
-    filtre = 'role'
-    valeur = 'ADC'
+    filtre = None
+    valeur = None
 
     if filtre == 'role':
         filtrer_par_role(input_file, output_file, valeur)
@@ -53,3 +65,5 @@ if __name__ == "__main__":
         filtrer_par_classe(input_file, output_file, valeur)
     elif filtre == 'tier':
         filtrer_par_tier(input_file, output_file, valeur)
+    else : 
+        reset(input_file, output_file)

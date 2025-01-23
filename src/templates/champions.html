@@ -17,6 +17,37 @@
         </nav>
     </header>
 
+    <div id="filters">
+        <select id="roleFilter">
+            <option value="">Filter by Role</option>
+            <option value="ADC">ADC</option>
+            <option value="TOP">TOP</option>
+            <option value="MID">MID</option>
+            <option value="JUNGLE">JUNGLE</option>
+            <option value="SUPPORT">SUPPORT</option>
+        </select>
+
+        <select id="tierFilter">
+            <option value="">Filter by Tier</option>
+            <option value="God">God</option>
+            <option value="S">S</option>
+            <option value="A">A</option>
+            <option value="B">B</option>
+            <option value="C">C</option>
+            <option value="D">D</option>
+        </select>
+
+        <select id="classFilter">
+            <option value="">Filter by Class</option>
+            <option value="Mage">Mage</option>
+            <option value="Assassin">Assassin</option>
+            <option value="Fighter">Fighter</option>
+            <option value="Marksman">Marksman</option>
+            <option value="Support">Support</option>
+            <option value="Tank">Tank</option>
+        </select>
+    </div>
+
     <table id="championTable">
         <thead>
             <tr>
@@ -95,6 +126,113 @@
                 console.error('Error:', error);
             }
         }
+
+        async function filterData() {
+            const roleFilter = document.getElementById('roleFilter').value;
+            const tierFilter = document.getElementById('tierFilter').value;
+            const classFilter = document.getElementById('classFilter').value;
+
+            if (roleFilter == "ADC" || roleFilter == "TOP" || roleFilter == "MID" || roleFilter == "SUPPORT" || roleFilter == "JUNGLE") {
+                column = "Role"
+                try {
+                    const response = await fetch(`/api/filter?column=${column}&value=${roleFilter}`);
+                    if (!response.ok) {
+                        console.error('Failed to fetch sorted data');
+                        return;
+                    }
+                    const sortedData = await response.json();
+                    const tableBody = document.querySelector('#championTable tbody');
+                    tableBody.innerHTML = '';
+                    sortedData.forEach(row => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${row['Name']}</td>
+                            <td>${row['Class']}</td>
+                            <td>${row['Role']}</td>
+                            <td>${row['Tier']}</td>
+                            <td>${row['Win %']}</td>
+                            <td>${row['Pick %']}</td>
+                            <td>${row['Ban %']}</td>
+                            <td>${row['KDA']}</td>
+                        `;
+                        tableBody.appendChild(tr);
+                    });
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+
+                document.getElementById('roleFilter').value = "";
+            }
+
+
+            if (tierFilter == "God" || tierFilter == "S" || tierFilter == "A" || tierFilter == "B" || tierFilter == "C" || tierFilter == "D") {
+                column = "Tier"
+                try {
+                    const response = await fetch(`/api/filter?column=${column}&value=${tierFilter}`);
+                    if (!response.ok) {
+                        console.error('Failed to fetch sorted data');
+                        return;
+                    }
+                    const sortedData = await response.json();
+                    const tableBody = document.querySelector('#championTable tbody');
+                    tableBody.innerHTML = '';
+                    sortedData.forEach(row => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${row['Name']}</td>
+                            <td>${row['Class']}</td>
+                            <td>${row['Role']}</td>
+                            <td>${row['Tier']}</td>
+                            <td>${row['Win %']}</td>
+                            <td>${row['Pick %']}</td>
+                            <td>${row['Ban %']}</td>
+                            <td>${row['KDA']}</td>
+                        `;
+                        tableBody.appendChild(tr);
+                    });
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+
+                document.getElementById('tierFilter').value = "";
+            }
+
+            if (classFilter == "Mage" || classFilter == "Assassin" || classFilter == "Fighter" || classFilter == "Marksman" || classFilter == "Support" || classFilter == "Tank") {
+                column = "Class"
+                try {
+                    const response = await fetch(`/api/filter?column=${column}&value=${classFilter}`);
+                    if (!response.ok) {
+                        console.error('Failed to fetch sorted data');
+                        return;
+                    }
+                    const sortedData = await response.json();
+                    const tableBody = document.querySelector('#championTable tbody');
+                    tableBody.innerHTML = '';
+                    sortedData.forEach(row => {
+                        const tr = document.createElement('tr');
+                        tr.innerHTML = `
+                            <td>${row['Name']}</td>
+                            <td>${row['Class']}</td>
+                            <td>${row['Role']}</td>
+                            <td>${row['Tier']}</td>
+                            <td>${row['Win %']}</td>
+                            <td>${row['Pick %']}</td>
+                            <td>${row['Ban %']}</td>
+                            <td>${row['KDA']}</td>
+                        `;
+                        tableBody.appendChild(tr);
+                    });
+                } catch (error) {
+                    console.error('Error:', error);
+                }
+
+                document.getElementById('classFilter').value = "";
+            }
+        }
+
+        document.getElementById('roleFilter').addEventListener('change', filterData);
+        document.getElementById('tierFilter').addEventListener('change', filterData);
+        document.getElementById('classFilter').addEventListener('change', filterData);
 
         loadChampionData();
     </script>

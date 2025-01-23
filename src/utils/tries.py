@@ -54,7 +54,7 @@ def trier_par_kda_desc(input_file, output_file):
     trier_par_critere(input_file, output_file, 'KDA', 'DESC')
 
 def trier_par_critere(input_file, output_file, critere, ordre='ASC'):
-    input_path = os.path.join(DATA_DIR, 'interim', input_file)
+    input_path = os.path.join(DATA_DIR, 'processed', input_file)
     output_path = os.path.join(DATA_DIR, 'processed', output_file)
 
     df = pd.read_csv(input_path, delimiter=';')
