@@ -6,6 +6,7 @@ import json
 from urllib.parse import urlparse, parse_qs
 from tries import trier_par_nom_asc, trier_par_nom_desc, trier_par_classe_asc, trier_par_classe_desc, trier_par_role_asc, trier_par_role_desc, trier_par_tier_asc, trier_par_tier_desc, trier_par_win_asc, trier_par_win_desc, trier_par_pick_asc, trier_par_pick_desc, trier_par_ban_asc, trier_par_ban_desc, trier_par_kda_asc, trier_par_kda_desc
 from filtre import reset, filtrer_par_role, filtrer_par_tier, filtrer_par_classe
+from search import search
 
 PORT = 8000
 
@@ -87,6 +88,24 @@ class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                 filtrer_par_tier(input_file, output_file, value)
             elif column == "Class" :
                 filtrer_par_classe(input_file, output_file, value)
+
+            output_path = os.path.join(DATA_DIR, output_file)
+            with open(output_path, 'r') as csvfile:
+                reader = csv.DictReader(csvfile, delimiter=';')
+                sorted_data = [row for row in reader]
+
+            self.send_response(200)
+            self.send_header("Content-type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(sorted_data).encode('utf-8'))
+        elif self.path.startswith('/api/search'):    
+            input_file = 'lolStatsFilter.csv'
+            output_file = 'lolStatsFilter.csv'
+
+            query = parse_qs(urlparse(self.path).query)
+            input_search = query.get('input', [''])[0]
+
+            search(input_file, output_file, input_search)
 
             output_path = os.path.join(DATA_DIR, output_file)
             with open(output_path, 'r') as csvfile:

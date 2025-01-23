@@ -17,6 +17,10 @@
         </nav>
     </header>
 
+    <div id="search">
+        <input type="text" id="searchInput" placeholder="Rechercher un champion..." />
+    </div>    
+
     <div id="filters">
         <select id="roleFilter">
             <option value="">Filter by Role</option>
@@ -229,6 +233,35 @@
                 document.getElementById('classFilter').value = "";
             }
         }
+
+        document.getElementById('searchInput').addEventListener('input', async function () {
+            const searchQuery = this.value.trim().toLowerCase();
+
+            const response = await fetch(`/api/search?input=${searchQuery}`);
+            if (!response.ok) {
+                console.error('Failed to fetch champion data');
+                return;
+            }
+            const data = await response.json();
+
+            const tableBody = document.querySelector('#championTable tbody');
+            tableBody.innerHTML = ''; 
+
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row['Name']}</td>
+                    <td>${row['Class']}</td>
+                    <td>${row['Role']}</td>
+                    <td>${row['Tier']}</td>
+                    <td>${row['Win %']}</td>
+                    <td>${row['Pick %']}</td>
+                    <td>${row['Ban %']}</td>
+                    <td>${row['KDA']}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        });
 
         document.getElementById('roleFilter').addEventListener('change', filterData);
         document.getElementById('tierFilter').addEventListener('change', filterData);
