@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Champions</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Champions</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/champions">Champions</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <table id="championTable">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Class</th>
+                <th>Role</th>
+                <th>Tier</th>
+                <th>Win %</th>
+                <th>Pick %</th>
+                <th>Ban %</th>
+                <th>KDA</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <footer>
+        <p>&copy; 2025 Leak Of Legends</p>
+    </footer>
+
+    <script>
+        async function loadChampionData() {
+            const response = await fetch('/api/lol-stats');
+            if (!response.ok) {
+                console.error('Failed to fetch champion data');
+                return;
+            }
+            const data = await response.json();
+            const tableBody = document.querySelector('#championTable tbody');
+            data.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${row['Name']}</td>
+                    <td>${row['Class']}</td>
+                    <td>${row['Role']}</td>
+                    <td>${row['Tier']}</td>
+                    <td>${row['Win %']}</td>
+                    <td>${row['Pick %']}</td>
+                    <td>${row['Ban %']}</td>
+                    <td>${row['KDA']}</td>
+                `;
+                tableBody.appendChild(tr);
+            });
+        }
+
+        loadChampionData();
+    </script>
+</body>
+</html>
