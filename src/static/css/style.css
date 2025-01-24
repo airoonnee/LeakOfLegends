@@ -201,6 +201,28 @@ tbody td:last-child {
     padding-right: 20px;
 }
 
+/* Styliser les liens des noms de champions */
+table tbody td a {
+    color: #4fd1c5;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1.1rem;
+    transition: color 0.3s ease, text-decoration 0.3s ease;
+}
+
+/* Effet au survol des noms de champions */
+table tbody td a:hover {
+    color: #eaeaea;
+    text-decoration: underline;
+}
+
+table tbody td a:focus {
+    outline: none;
+    color: #eaeaea;
+    background-color: #4fd1c5;
+    border-radius: 4px;
+}
+
 /* Footer */
 footer {
     background-color: #23252b;
