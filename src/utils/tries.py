@@ -59,17 +59,17 @@ def trier_par_critere(input_file, output_file, critere, ordre='ASC'):
     
     df = pd.read_csv(input_path, delimiter=';')
 
+    if critere in ['Win %', 'Pick %', 'Ban %']:
+        df[critere] = df[critere].str.replace('%', '').astype(float)
+
     if critere == 'Tier':
         custom_order = {'God': 0, 'S': 1, 'A': 2, 'B': 3, 'C': 4, 'D': 5}
-        if ordre == 'ASC':
-            df_trie = df.sort_values(by=critere, key=lambda x: x.map(custom_order))
-        else:
-            df_trie = df.sort_values(by=critere, key=lambda x: x.map(custom_order), ascending=False)
+        df_trie = df.sort_values(by=critere, key=lambda x: x.map(custom_order), ascending=(ordre == 'ASC'))
     else:
-        if ordre == 'ASC':
-            df_trie = df.sort_values(by=critere, ascending=True)
-        else:
-            df_trie = df.sort_values(by=critere, ascending=False)
-            
+        df_trie = df.sort_values(by=critere, ascending=(ordre == 'ASC'))
+    
+    if critere in ['Win %', 'Pick %', 'Ban %']:
+        df_trie[critere] = df_trie[critere].astype(str) + '%'
+    
     df_trie.to_csv(output_path, index=False, sep=';')
     print(df_trie)
