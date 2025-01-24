@@ -4,11 +4,11 @@ import os
 import csv
 import json
 from urllib.parse import urlparse, parse_qs
-from tries import trier_par_nom_asc, trier_par_nom_desc, trier_par_classe_asc, trier_par_classe_desc, trier_par_role_asc, trier_par_role_desc, trier_par_tier_asc, trier_par_tier_desc, trier_par_win_asc, trier_par_win_desc, trier_par_pick_asc, trier_par_pick_desc, trier_par_ban_asc, trier_par_ban_desc, trier_par_kda_asc, trier_par_kda_desc
-from filtre import reset, filtrer_par_role, filtrer_par_tier, filtrer_par_classe
-from search import search
-from champion import detail_champion
-from compare import compare_champion
+from utils.tries import trier_par_nom_asc, trier_par_nom_desc, trier_par_classe_asc, trier_par_classe_desc, trier_par_role_asc, trier_par_role_desc, trier_par_tier_asc, trier_par_tier_desc, trier_par_win_asc, trier_par_win_desc, trier_par_pick_asc, trier_par_pick_desc, trier_par_ban_asc, trier_par_ban_desc, trier_par_kda_asc, trier_par_kda_desc
+from utils.filtre import reset, filtrer_par_role, filtrer_par_tier, filtrer_par_classe
+from utils.search import search
+from utils.champion import detail_champion
+from utils.compare import compare_champion
 
 PORT = 8000
 
@@ -210,6 +210,7 @@ class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.wfile.write(json.dumps({"error": "CSV file not found"}).encode('utf-8'))
 
 
-with socketserver.TCPServer(("", PORT), SimpleHTTPRequestHandler) as httpd:
-    print(f"Serveur démarré sur le port {PORT}")
-    httpd.serve_forever()
+def start_server():
+    with socketserver.TCPServer(("", PORT), SimpleHTTPRequestHandler) as httpd:
+        print(f"Serveur démarré sur le port {PORT}")
+        httpd.serve_forever()
