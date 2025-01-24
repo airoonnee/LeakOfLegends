@@ -8,6 +8,7 @@ from tries import trier_par_nom_asc, trier_par_nom_desc, trier_par_classe_asc, t
 from filtre import reset, filtrer_par_role, filtrer_par_tier, filtrer_par_classe
 from search import search
 from champion import detail_champion
+from compare import compare_champion
 
 PORT = 8000
 
@@ -146,6 +147,30 @@ class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.send_header("Content-type", "application/json")
             self.end_headers()
             self.wfile.write(json.dumps(sorted_data).encode('utf-8'))
+
+        elif self.path.startswith('/api/statsDetails'):
+            output_file = 'lolStatsFilter.csv'
+
+            query = parse_qs(urlparse(self.path).query)
+            champion_id = query.get('id', [''])[0]
+            champion_id_2 = query.get('id2', [''])[0]
+            forme = query.get('forme', [''])[0]
+
+            print("name")
+            print(champion_id)
+
+            compare_champion(champion_id, champion_id_2, forme)
+
+            output_path = os.path.join(DATA_DIR, output_file)
+            with open(output_path, 'r', encoding='utf-8') as csvfile:
+                reader = csv.DictReader(csvfile, delimiter=';')
+                sorted_data = [row for row in reader]
+
+            self.send_response(200)
+            self.send_header("Content-type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(sorted_data).encode('utf-8'))
+
         else:
             static_path = os.path.join(STATIC_DIR, self.path.lstrip('/'))
             if os.path.exists(static_path):

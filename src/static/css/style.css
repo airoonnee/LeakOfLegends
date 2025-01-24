@@ -289,7 +289,13 @@ main p {
     font-style: italic;
 }
 
-/* Style pour la section de comparaison */
+/* Compare Section */
+#comparison-images {
+    text-align: center;
+    width: 600;
+    height: auto;
+}
+
 #compare-section {
     background-color: #292b30;
     border-radius: 8px;
@@ -306,10 +312,44 @@ main p {
     margin-bottom: 20px;
 }
 
-/* Conteneur des comboboxes */
+/* Combobox Container */
 #compare-section .combobox-container {
     margin-bottom: 20px;
     text-align: center;
+}
+
+#compare-section .combobox-container label {
+    display: block;
+    font-size: 1.1rem;
+    color: #eaeaea;
+    margin-bottom: 8px;
+}
+
+#compare-section .combobox-container input[type="text"] {
+    background-color: #23252b;
+    color: #eaeaea;
+    border: 1px solid #3b3e45;
+    padding: 10px 15px;
+    font-size: 1rem;
+    border-radius: 25px;
+    width: 90%;
+    max-width: 350px;
+    margin-bottom: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+#compare-section .combobox-container input[type="text"]:focus {
+    outline: none;
+    background-color: #292b30;
+    border-color: #4fd1c5;
+    box-shadow: 0 0 8px rgba(79, 209, 197, 0.8);
+}
+
+#compare-section .combobox-container input[type="text"]::placeholder {
+    color: #868686;
+    font-style: italic;
 }
 
 /* Style des labels */

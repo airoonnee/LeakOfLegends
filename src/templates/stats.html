@@ -36,7 +36,22 @@
         </div>
 
         <div id="filters">
+            <select id="forme">
+                <option value="Barre">Barre</option>
+                <option value="Cercle">Cercle</option>
+                <option value="Point">Point</option>
+            </select>
             <button class="button" id="compareButton">Comparer</button>
+        </div>
+    </div>
+
+    <div id="comparison-images" style="display: none;">
+        <h2>Résultats de la comparaison</h2>
+        <div id="image-container">
+            <img id="image1" src="" alt="Win">
+            <img id="image2" src="" alt="Pick">
+            <img id="image3" src="" alt="Ban">
+            <img id="image4" src="" alt="KDA">
         </div>
     </div>
 
@@ -91,7 +106,36 @@
                     });
             });
         }
-        
+
+        async function loadGraph(champion_1, champion_2, forme) {
+            const response = await fetch(`/api/statsDetails?id=${champion_1}&id2=${champion_2}&forme=${forme}`);
+            if (!response.ok) {
+                console.error('Failed to fetch champion data');
+                return;
+            }
+
+            const imageBasePath = "/img/";
+
+            if (forme == "Barre"){
+                document.getElementById("image1").src = `${imageBasePath}${champion_1}_${champion_2}_bar_Win%.png`;
+                document.getElementById("image2").src = `${imageBasePath}${champion_1}_${champion_2}_bar_Pick%.png`;
+                document.getElementById("image3").src = `${imageBasePath}${champion_1}_${champion_2}_bar_Ban%.png`;
+                document.getElementById("image4").src = `${imageBasePath}${champion_1}_${champion_2}_bar_KDA.png`;
+            } else if (forme == "Cercle") {
+                document.getElementById("image1").src = `${imageBasePath}${champion_1}_${champion_2}_circle_Win%.png`;
+                document.getElementById("image2").src = `${imageBasePath}${champion_1}_${champion_2}_circle_Pick%.png`;
+                document.getElementById("image3").src = `${imageBasePath}${champion_1}_${champion_2}_circle_Ban%.png`;
+                document.getElementById("image4").src = `${imageBasePath}${champion_1}_${champion_2}_circle_KDA.png`;
+            } else if (forme == "Point") {
+                document.getElementById("image1").src = `${imageBasePath}${champion_1}_${champion_2}_point_Win%.png`;
+                document.getElementById("image2").src = `${imageBasePath}${champion_1}_${champion_2}_point_Pick%.png`;
+                document.getElementById("image3").src = `${imageBasePath}${champion_1}_${champion_2}_point_Ban%.png`;
+                document.getElementById("image4").src = `${imageBasePath}${champion_1}_${champion_2}_point_KDA.png`;
+            }
+                    
+            document.getElementById("comparison-images").style.display = "block";
+        }
+
         document.addEventListener("DOMContentLoaded", async () => {
             await loadChampionData();
             populateDropdown("champion1");
@@ -103,8 +147,10 @@
             document.getElementById("compareButton").addEventListener("click", () => {
                 const champion1 = document.getElementById("champion1").value;
                 const champion2 = document.getElementById("champion2").value;
+                const forme = document.getElementById("forme").value;
+
                 if (champion1 && champion2) {
-                    alert(`Vous comparez ${champion1} avec ${champion2}`);
+                    loadGraph(champion1, champion2, forme);
                 } else {
                     alert("Veuillez sélectionner deux champions !");
                 }

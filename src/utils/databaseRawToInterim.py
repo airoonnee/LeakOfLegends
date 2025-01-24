@@ -64,8 +64,6 @@ if __name__ == "__main__":
     columns_to_keep_json = ['name', 'title', 'lore', 'spell.0.id', 'spell.0.name', 'spell.0.description', 'spell.1.id', 'spell.1.name', 'spell.1.description', 'spell.2.id', 'spell.2.name', 'spell.2.description', 'spell.3.id', 'spell.3.name', 'spell.3.description', "passive.name", "passive.description"] 
     
     df_json = process_file(json_file_path, columns_to_keep_json)
-    print(df_json)
 
     df_csv = process_file(csv_file_path, columns_to_keep_csv)
-    print(df_csv)
     

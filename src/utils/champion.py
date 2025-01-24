@@ -15,8 +15,6 @@ def detail_champion(champion_name):
     df_spell = pd.read_csv(file_path_spell, sep=";")
 
     champion_details = df_spell[df_spell['name'] == champion_name]
-
-    print(champion_details)
     
     with open(output_file_spell_path, mode="w", encoding="utf-8") as f:
         champion_details.to_csv(f, index=False, sep=";", lineterminator="\n")
