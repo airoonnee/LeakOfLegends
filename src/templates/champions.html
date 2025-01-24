@@ -88,7 +88,7 @@
             data.forEach(row => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${row['Name']}</td>
+                    <td><a href="/champion_detail?id=${row['Name']}">${row['Name']}</a></td>
                     <td>${row['Class']}</td>
                     <td>${row['Role']}</td>
                     <td>${row['Tier']}</td>
@@ -116,7 +116,7 @@
                 sortedData.forEach(row => {
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
-                        <td>${row['Name']}</td>
+                        <td><a href="/champion_detail.html?id=${row['Name']}">${row['Name']}</a></td>
                         <td>${row['Class']}</td>
                         <td>${row['Role']}</td>
                         <td>${row['Tier']}</td>
@@ -151,7 +151,7 @@
                     sortedData.forEach(row => {
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
-                            <td>${row['Name']}</td>
+                            <td><a href="/champion_detail.html?id=${row['Name']}">${row['Name']}</a></td>
                             <td>${row['Class']}</td>
                             <td>${row['Role']}</td>
                             <td>${row['Tier']}</td>
@@ -184,7 +184,7 @@
                     sortedData.forEach(row => {
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
-                            <td>${row['Name']}</td>
+                            <td><a href="/champion_detail.html?id=${row['Name']}">${row['Name']}</a></td>
                             <td>${row['Class']}</td>
                             <td>${row['Role']}</td>
                             <td>${row['Tier']}</td>
@@ -216,7 +216,7 @@
                     sortedData.forEach(row => {
                         const tr = document.createElement('tr');
                         tr.innerHTML = `
-                            <td>${row['Name']}</td>
+                            <td><a href="/champion_detail.html?id=${row['Name']}">${row['Name']}</a></td>
                             <td>${row['Class']}</td>
                             <td>${row['Role']}</td>
                             <td>${row['Tier']}</td>
@@ -251,7 +251,7 @@
             data.forEach(row => {
                 const tr = document.createElement('tr');
                 tr.innerHTML = `
-                    <td>${row['Name']}</td>
+                    <td><a href="/champion_detail.html?id=${row['Name']}">${row['Name']}</a></td>
                     <td>${row['Class']}</td>
                     <td>${row['Role']}</td>
                     <td>${row['Tier']}</td>

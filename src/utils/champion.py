@@ -1,35 +1,22 @@
 import pandas as pd
+import os
 
-file_path_info = "data/interim/lolStatsFilter.csv"  
-output_file_info = "data/processed/lolStatsFilter.csv"
+BASE_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../data')
+DATA_DIR = os.path.abspath(BASE_DIR)
 
-file_path_spell = "data/interim/championFullFilter.csv"  
-output_file_spell = "data/processed/championFullFilter.csv"
+file_spell = "championFullFilter.csv"  
+output_file_spell = "championFullFilter.csv"
 
-df_info = pd.read_csv(file_path_info, sep=";")
-df_spell = pd.read_csv(file_path_spell, sep=";")
+def detail_champion(champion_name):
+    """Affiche toutes les informations d'un champion."""
+    file_path_spell = os.path.join(DATA_DIR, 'interim', file_spell)
+    output_file_spell_path = os.path.join(DATA_DIR, 'processed', output_file_spell)
 
-class Champion:
-    def detail_champion(champion_name):
-        """Affiche toutes les informations d'un champion."""
+    df_spell = pd.read_csv(file_path_spell, sep=";")
 
-        champion_info = df_info[df_info['Name'].str.contains(champion_name, case=False, na=False)]
-        champion_spell = df_spell[df_spell['name'].str.contains(champion_name, case=False, na=False)]
+    champion_details = df_spell[df_spell['name'] == champion_name]
 
-        if champion_info.empty:
-            print(f"Aucun champion trouvé avec le nom : {champion_name}")
-        else:
-            print(f"\nInformations pour le champion '{champion_name}':")
-            print(champion_info.to_string(index=False))
-        
-        with open(output_file_info, mode="w", encoding="utf-8") as f:
-            champion_info.to_csv(f, index=False, sep=";", lineterminator="\n")
-
-        if champion_spell.empty:
-            print(f"Aucun champion trouvé avec le nom : {champion_name}")
-        else:
-            print(f"\nInformations pour le champion '{champion_name}':")
-            print(champion_spell.to_string(index=False))
-        
-        with open(output_file_spell, mode="w", encoding="utf-8") as f:
-            champion_spell.to_csv(f, index=False, sep=";", lineterminator="\n")
+    print(champion_details)
+    
+    with open(output_file_spell_path, mode="w", encoding="utf-8") as f:
+        champion_details.to_csv(f, index=False, sep=";", lineterminator="\n")

@@ -7,6 +7,7 @@ from urllib.parse import urlparse, parse_qs
 from tries import trier_par_nom_asc, trier_par_nom_desc, trier_par_classe_asc, trier_par_classe_desc, trier_par_role_asc, trier_par_role_desc, trier_par_tier_asc, trier_par_tier_desc, trier_par_win_asc, trier_par_win_desc, trier_par_pick_asc, trier_par_pick_desc, trier_par_ban_asc, trier_par_ban_desc, trier_par_kda_asc, trier_par_kda_desc
 from filtre import reset, filtrer_par_role, filtrer_par_tier, filtrer_par_classe
 from search import search
+from champion import detail_champion
 
 PORT = 8000
 
@@ -19,13 +20,20 @@ class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
     def do_GET(self):
         if self.path == '/':
             self._serve_file(os.path.join(TEMPLATES_DIR, 'index.html'))
+
         elif self.path == '/champions':
             self._serve_file(os.path.join(TEMPLATES_DIR, 'champions.html'))
+
         elif self.path == '/stats':
             self._serve_file(os.path.join(TEMPLATES_DIR, 'stats.html'))
+
+        elif self.path.startswith('/champion_detail'):
+            self._serve_file(os.path.join(TEMPLATES_DIR, 'championDetail.html'))
+
         elif self.path == '/api/lol-stats':
             reset('lolStatsFilter.csv', 'lolStatsFilter.csv')
             self._serve_csv(os.path.join(DATA_DIR, 'lolStatsFilter.csv'))
+
         elif self.path.startswith('/api/sort'):    
             input_file = 'lolStatsFilter.csv'
             output_file = 'lolStatsFilter.csv'
@@ -76,6 +84,7 @@ class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.send_header("Content-type", "application/json")
             self.end_headers()
             self.wfile.write(json.dumps(sorted_data).encode('utf-8'))
+
         elif self.path.startswith('/api/filter'):    
             input_file = 'lolStatsFilter.csv'
             output_file = 'lolStatsFilter.csv'
@@ -100,7 +109,8 @@ class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.send_header("Content-type", "application/json")
             self.end_headers()
             self.wfile.write(json.dumps(sorted_data).encode('utf-8'))
-        elif self.path.startswith('/api/search'):    
+
+        elif self.path.startswith('/api/search'):   
             input_file = 'lolStatsFilter.csv'
             output_file = 'lolStatsFilter.csv'
 
@@ -111,6 +121,24 @@ class SimpleHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
 
             output_path = os.path.join(DATA_DIR, output_file)
             with open(output_path, 'r') as csvfile:
+                reader = csv.DictReader(csvfile, delimiter=';')
+                sorted_data = [row for row in reader]
+
+            self.send_response(200)
+            self.send_header("Content-type", "application/json")
+            self.end_headers()
+            self.wfile.write(json.dumps(sorted_data).encode('utf-8'))
+
+        elif self.path.startswith('/api/championDetail'):
+            output_file = 'championFullFilter.csv'
+
+            query = parse_qs(urlparse(self.path).query)
+            champion_id = query.get('id', [''])[0]
+    
+            detail_champion(champion_id)
+
+            output_path = os.path.join(DATA_DIR, output_file)
+            with open(output_path, 'r', encoding='utf-8') as csvfile:
                 reader = csv.DictReader(csvfile, delimiter=';')
                 sorted_data = [row for row in reader]
 

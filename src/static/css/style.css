@@ -52,6 +52,69 @@ header nav ul li a:hover {
     color: #4fd1c5;
 }
 
+/* Champion Details Section */
+#championDetails {
+    margin: 40px auto;
+    padding: 40px; 
+    background-color: #292b30;
+    border-radius: 8px;
+    max-width: 1000px; 
+    width: 95%; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+/* Champion Name (Centered) */
+#championDetails h2 {
+    font-size: 3rem;  
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+/* Champion Title (Smaller, Centered) */
+#championDetails p#championTitle {
+    font-size: 1.5rem;  
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Champion Lore (Centered) */
+#championDetails p#championLore {
+    font-size: 1.2rem;  
+    text-align: center;
+    margin-bottom: 30px; 
+    color: #eaeaea;
+}
+
+/* Spells Section (Horizontal alignment) */
+#championDetails .spell {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: flex-start;
+    margin-bottom: 30px; 
+}
+
+#championDetails .spell div {
+    text-align: center;
+    width: 22%;
+}
+
+/* Spell Title and Description */
+#championDetails .spell .spell-name,
+#championDetails .spell .spell-description {
+    font-size: 1.2rem; 
+    color: #eaeaea;
+}
+
+/* Passive Section (Centered) */
+#championDetails p#PassiveName,
+#championDetails p#PassiveDescription {
+    text-align: center;
+    margin-top: 40px; 
+    font-size: 1.2rem;
+    color: #eaeaea;
+}
+
+
 /* Filters */
 #filters {
     text-align: center;

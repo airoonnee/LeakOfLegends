@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Champion Details</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <header>
+        <h1>Champion Details</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/champions">Champions</a></li>
+                <li><a href="/stats">Stats</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div id="championDetails">
+        <h2 id="championName"></h2>
+        <p id="championTitle"></p>
+        <p id="championLore"></p>
+        
+        <div class="spell">
+            <div>
+                <p id="Spell1Id"></p>
+                <h3 id="Spell1Name"></h3>
+                <p id="Spell1Description"></p>
+            </div>
+            <div>
+                <p id="Spell2Id"></p>
+                <h3 id="Spell2Name"></h3>
+                <p id="Spell2Description"></p>
+            </div>
+            <div>
+                <p id="Spell3Id"></p>
+                <h3 id="Spell3Name"></h3>
+                <p id="Spell3Description"></p>
+            </div>
+            <div>
+                <p id="Spell4Id"></p>
+                <h3 id="Spell4Name"></h3>
+                <p id="Spell4Description"></p>
+            </div>
+        </div>
+        
+        <p id="PassiveName"></p>
+        <p id="PassiveDescription"></p>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Leak Of Legends</p>
+    </footer>
+
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const championName = urlParams.get('id');
+
+        async function loadChampionDetails() {
+            try {
+                const response = await fetch(`/api/championDetail?id=${championName}`);
+                if (!response.ok) {
+                    console.error('Failed to fetch champion details');
+                    return;
+                }
+
+                const champion = await response.json();
+
+                document.getElementById('championName').textContent = champion[0]['name'];
+                document.getElementById('championTitle').textContent = champion[0]['title'];
+                document.getElementById('championLore').textContent = champion[0]['lore'];
+                document.getElementById('Spell1Id').textContent = champion[0]['spell.0.id'].replace(championName, '');
+                document.getElementById('Spell1Name').textContent = champion[0]['spell.0.name'];
+                document.getElementById('Spell1Description').textContent = champion[0]['spell.0.description'];
+                document.getElementById('Spell2Id').textContent = champion[0]['spell.1.id'].replace(championName, '');
+                document.getElementById('Spell2Name').textContent = champion[0]['spell.1.name'];
+                document.getElementById('Spell2Description').textContent = champion[0]['spell.1.description'];
+                document.getElementById('Spell3Id').textContent = champion[0]['spell.2.id'].replace(championName, '');
+                document.getElementById('Spell3Name').textContent = champion[0]['spell.2.name'];
+                document.getElementById('Spell3Description').textContent = champion[0]['spell.2.description'];
+                document.getElementById('Spell4Id').textContent = champion[0]['spell.3.id'].replace(championName, '');
+                document.getElementById('Spell4Name').textContent = champion[0]['spell.3.name'];
+                document.getElementById('Spell4Description').textContent = champion[0]['spell.3.description'];
+                document.getElementById('PassiveName').textContent = champion[0]['passive.name'];
+                document.getElementById('PassiveDescription').textContent = champion[0]['passive.description'];
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        loadChampionDetails();
+    </script>
+</body>
+</html>
